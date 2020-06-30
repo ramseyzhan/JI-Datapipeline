@@ -1,0 +1,204 @@
+/* page layout styles */
+div.header {
+    /* background-color: #aaa; */
+    padding: 30px;
+    font-size: 20px;
+}
+
+/* flex arranges the divs */
+div.row {
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: row;
+}
+
+
+/* Create three unequal columns that sits next to each other */
+div.column {
+    padding: 5px;
+}
+
+div.column.side { /* Left and right column */
+    /* background-color: #ccc; */
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1 1 0;
+}
+
+div.column.middle { /* Middle column */
+    /* background-color: #aaa; */
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 2 1 0;
+
+    /* inner divs */
+    display: -webkit-flex;
+    display: flex;
+    flex-direction: column;
+}
+
+div.inner { /* inside the middle column */
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1 1 0;
+    border: .1px black solid;
+    margin: 5px;
+}
+
+.left_corner {
+    padding: 10px;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 0 1 0;
+    align-self: center;
+}
+
+div.fill {
+    padding: 10px;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 1 1 0;
+    text-align: center;
+    align-self: center;
+}
+
+.right_corner {
+    padding: 10px;
+    -webkit-flex: 1;
+    -ms-flex: 1;
+    flex: 0 0 auto;
+    align-self: center;
+    font-size: small;
+}
+
+/* section styles*/
+
+.post {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.user_info {
+    margin: 5px;
+}
+
+.user_images {
+    display: flex;
+    justify-content: space-between;
+}
+
+.follow {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border: 0.1px black solid;
+}
+
+.single_post {
+    margin: 20px;
+    border: 0.1px black solid;
+}
+
+
+
+/* tag styles */
+/*
+div, span {
+    border: 1px black solid !important;
+}
+
+img {
+    border: 1px black solid !important;
+}
+*/
+ul {
+    list-style-type: none;
+    padding-left: 0px;
+    margin-top: 0em;
+    margin-bottom: .5em;
+}
+
+ul li {
+    display: inline;
+}
+
+body {
+    /* reset the 8px margin */
+    margin: 0px;
+}
+
+section {
+    padding: 5px;
+}
+
+a {
+    text-decoration: none;
+}
+
+
+
+/* attribute styles */
+.image_link {
+    text-align: center;
+    margin: 5px;
+}
+.home_button {
+    width: 7em;
+    height: auto;
+}
+.user_photo {
+    height:1em;
+    width: auto;
+    vertical-align: middle;
+}
+.post_photo {
+    max-width: 100%;
+    height: auto;
+}
+.overview_image {
+    max-width: 90%;
+    max-height: auto;
+    margin: 5px;
+}
+.follow_photo {
+    height:3em;
+    width: auto;
+    vertical-align: middle;
+}
+.black {
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+    font-size: small;
+    font-weight: bold;
+    color: black;
+}
+.grey {
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+    font-size: small;
+    font-weight: bold;
+    color: grey;
+    align-self: center;
+}
+.normal {
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+    font-size: small;
+}
+.large {
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+    font-size: large;
+    color: black;
+    margin-bottom: .5em;
+}
+.bold {
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+    font-size: large;
+    font-weight: bold;
+    color: black;
+    margin-bottom: .5em;
+}
+.minor {
+    font-family: 'Palatino Linotype', 'Book Antiqua', serif;
+    font-size: small;
+    color: grey;
+    align-self: center;
+}

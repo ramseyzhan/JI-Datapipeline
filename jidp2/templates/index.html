@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JI-Datapipeline</title>
+    <link rel="stylesheet" type="text/css" href="{{ style }}">
+</head>
+<body>
+    <div class="header">
+        <div class="row">
+            <div class="left_corner">
+                <a href="http://umji.sjtu.edu.cn/">
+                    <img class="home_button" src="/static/images/ji_icon.jpg" alt="um-ji icon">
+                </a>
+            </div>
+            <div class="fill"></div>
+            <div class="left_corner">
+                <a href="http://www.datapipeline.com">
+                    <img class="home_button" src="/static/images/dp_icon.png" alt="datapipeline icon">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="side column"></div>
+        <div class="column middle">
+            <div id="reactEntry">
+                Loading ...
+            </div>
+        </div>
+        <div class="column side"></div>
+    </div>
+    <!-- Load JavaScript -->
+    <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
+</body>
+</html>
