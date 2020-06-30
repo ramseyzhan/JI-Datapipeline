@@ -1,0 +1,18 @@
+#!/bin/bash
+#
+# jidp2run
+#
+# Clean, build and start server
+
+# Stop on errors, print commands
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+set -x
+
+export FLASK_DEBUG=True
+FLASK_DEBUG=True
+export FLASK_APP=jidp2
+FLASK_APP=jidp2
+#export JIDP2_SETTINGS=config.py
+#JIDP2_SETTINGS=config.py
+flask run --host 0.0.0.0 --port 8000
