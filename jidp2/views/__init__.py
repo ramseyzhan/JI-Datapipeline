@@ -1,1 +1,1 @@
-from jidp2.views.index import index
+from jidp2.views.index import show_index

@@ -5,7 +5,7 @@ import flask
 app = flask.Flask(__name__)  # pylint: disable=invalid-name
 
 # Read settings from config module (insta485/config.py)
-# app.config.from_object('jidp2.config')
+app.config.from_object('jidp2.config')
 
 # Overlay settings read from file specified by environment variable. This is
 # useful for using different on development and production machines.
@@ -18,4 +18,4 @@ app = flask.Flask(__name__)  # pylint: disable=invalid-name
 # going to tell pylint and pycodestyle to ignore this coding style violation.
 import jidp2.api  # noqa: E402  pylint: disable=wrong-import-position
 import jidp2.views  # noqa: E402  pylint: disable=wrong-import-position
-#import jidp2.model  # noqa: E402  pylint: disable=wrong-import-position
+import jidp2.model  # noqa: E402  pylint: disable=wrong-import-position
