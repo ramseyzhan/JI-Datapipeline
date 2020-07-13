@@ -3,125 +3,46 @@
 <html lang="en">
 
 <title>DEMO 2</title>
-<style>
-* {
-  box-sizing: border-box; 
-}
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  margin: 0;
-}
-#main {
-  display: flex;
-  flex: 1;
-}
-#main > article {
-  flex: 1;
-}
-#main > nav {
-  flex: 0 0 13vw;
-  background:
-      rgba(187, 187, 187,0.5);
-}
-
-#main > nav {
-  order: -1;
-}
-
-header{
-  background: rgb(14, 14, 14);
-  height: 10vh;
-}
-
-
-
-header, article, nav{
-  padding: 1em;
-}
-</style>
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
     <title>JI-DataPipeline</title>
-    
 </head>
-
-
-
-
 <body>
   <header>
-      <span style="color: azure;">
-        <span style="font-size: xx-large;">
+      <span class="azure">
+        <span class="title">
             Capstone Design
         </span>
-        <span style="float: right;">
-            <span style="vertical-align: middle;">
+        <span class="fl_right">
+            <span class="middle">
                 <nav>
                     Product 1
                     Product 2
                 </nav>
             </span>
+        </span>
       </span>
-
-
   </header>
   <div id="main">
     <article>
-
-    <div class="container">
-        <!-- Heading -->
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">Anomaly Detection for Streaming Weather Data
-                </h1>
+        <div class="container">
+            <!-- Heading -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Anomaly Detection for Streaming Weather Data
+                    </h1>
+                </div>
             </div>
+
+            <hr>
+
         </div>
-
-        <hr>
-
-        <!-- Diagram -->
-
-        <div class="row">
-        <div class="col-md-6 portfolio-item">
-            <h3>
-                <a>The Diagram generated according to steaming input</a>
-            </h3>
-            <a href="#">
-                <img id="currrainfall" class="img-responsive" src = "" alt="No plot generated yet" width="80%" height="80%"  />
-            </a>
-           <p>This most recent rainfall heatmap is updated every three seconds.</p>
-        </div>
-
-
-
-        <div class="col-md-6 portfolio-item">
-            <h3>
-                <a>Rules and Alert Settings</a>
-            </h3>
-            Current threshold: <input type="text" id="currbar" readonly style="border:0; color:#f6931f; font-weight:bold;">
-            <div id="rainthreshold"></div>
-            <br>
-            <button id="submit0" class="ui-button ui-widget ui-corner-all">Update Rule</button>
-            <div id="anomalyalert" style="height:300%;width:75%;"></div>
-            
-            <p>Orange points are those which exceeds the threshold above. Red points are those which exceeds the mean by twice the standard error based on historical data.</p>
-        </div>
-        </div>
-
-    </div>
-    <!-- Center Column -->
-    <!--/container-fluid-->
-
-
-        
+        <!-- Center Column -->
+        <!--/container-fluid-->
     </article>
 
 

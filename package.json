@@ -8,7 +8,7 @@
   "repository": {},
   "devDependencies": {
     "@babel/core": "7.8.4",
-    "@babel/preset-env": "7.8.7",
+    "@babel/preset-env": "7.8.4",
     "@babel/preset-react": "7.8.3",
     "babel-eslint": "10.0.3",
     "babel-loader": "8.0.6",
@@ -28,11 +28,5 @@
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "react-infinite-scroll-component": "5.0.4"
-  },
-  "resolutions": {
-    "@babel/preset-env": "7.5.5"
-  },
-  "scripts": {
-    "preinstall": "npx npm-force-resolutions"
   }
 }

@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Index from './index';
+import Anomaly from './anomaly';
 
 // This method is only called once
 ReactDOM.render(
-  <Index url="/api/v1/" />,
+  <Anomaly url="/api/v1/m/" />,
   document.getElementById('reactEntry'),
 );

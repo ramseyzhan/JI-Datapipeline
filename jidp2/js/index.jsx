@@ -28,7 +28,7 @@ class Index extends React.Component {
   render() {
     const { anomaly } = this.state;
     return (
-      <div className="anomalies">
+      <div className="index">
         <Anomaly url={anomaly} />
       </div>
     );
