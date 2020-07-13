@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Index from './index';
 
 class Anomaly extends React.Component {
   constructor(props) {
@@ -40,7 +39,14 @@ class Anomaly extends React.Component {
       <div>
         {anomalies.map((anomaly) => (
           <span key={anomaly.anomalyid}>
-            Date;Time;Global_active_power;Global_reactive_power;Voltage;Global_intensity;Sub_metering_1;Sub_metering_2;Sub_metering_3
+            Time recorded: anomaly.recorded,
+            Global active power: anomaly.global_active_power,
+            Global_reactive_power: anomaly.global_reactive_power,
+            Voltage: anomaly.voltage,
+            Global_intensity: anomaly.global_intensity,
+            Sub_metering_1: anomaly.sub_metering_1,
+            Sub_metering_2: anomaly.sub_metering_2,
+            Sub_metering_3: anomaly.sub_metering_3
           </span>
         ))}
       </div>
