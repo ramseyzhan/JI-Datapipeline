@@ -46,7 +46,14 @@ def format_to_json(num_anomalies, page, anomalies, results, size):
         anomaly_id = anomaly["anomalyid"]
         results.append({
             "anomalyid": int(anomaly["anomalyid"]),
-            "url": '/api/v1/m/' + str(anomaly_id) + '/'
+            "recorded": str(anomaly["recorded"]),
+            "global_active_power": float(anomaly["global_active_power"]),
+            "global_reactive_power": float(anomaly["global_reactive_power"]),
+            "voltage": float(anomaly["voltage"]),
+            "global_intensity": float(anomaly["global_intensity"]),
+            "sub_metering_1": float(anomaly["sub_metering_1"]),
+            "sub_metering_2": float(anomaly["sub_metering_2"]),
+            "sub_metering_3": float(anomaly["sub_metering_3"])
         })
     if num_anomalies >= size + 1:
         need_next_page = True

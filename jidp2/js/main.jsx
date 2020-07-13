@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Likes from './likes';
-// import Post from './posts';
+import Index from './index';
 
 // This method is only called once
 ReactDOM.render(
-  <InfScroll url="/api/v1/p/" />,
+  <Index url="/api/v1/" />,
   document.getElementById('reactEntry'),
 );
