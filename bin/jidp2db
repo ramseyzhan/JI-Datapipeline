@@ -1,0 +1,41 @@
+#!/bin/bash
+# jidp2
+
+# Stop on errors
+# See https://vaneyckt.io/posts/safer_bash_scripts_with_set_euxo_pipefail/
+set -Eeuo pipefail
+
+# Sanity check command line options
+usage() {
+    echo "Usage: $0 (create|destroy|reset|dump)"
+}
+
+if [ $# -ne 1 ]; then
+    usage
+    exit 1
+fi
+
+# Parse argument.  $1 is the first argument
+case $1 in
+    "create")
+        mkdir -p var
+        sqlite3 var/jidp2.sqlite3 < sql/schema.sql
+        sqlite3 var/jidp2.sqlite3 < sql/data.sql
+        ;;
+    "destroy")
+        rm -rf var/jidp2.sqlite3
+        ;;
+    "reset")
+        rm -rf var/jidp2.sqlite3
+        mkdir -p var
+        sqlite3 var/jidp2.sqlite3 < sql/schema.sql
+        sqlite3 var/jidp2.sqlite3 < sql/data.sql
+        ;;
+    "dump")
+        sqlite3 -batch -line var/jidp2.sqlite3 'SELECT * FROM anomaly'
+        ;;
+    *)
+        usage
+        exit 1
+        ;;
+esac
