@@ -7,6 +7,9 @@ URLs include:
 import flask
 import jidp2
 
+from flask import Flask, render_template, redirect, url_for
+from flask_mail import Mail,  Message
+
 import datetime
 from datetime import datetime
 
@@ -43,6 +46,18 @@ def gen(datas,std,threshold):
 
     return all_datas,abnormal_datas
 
+
+
+
+jidp2.app.config['MAIL_SERVER']='smtp.gmail.com'
+jidp2.app.config['MAIL_PORT'] = 465
+jidp2.app.config['MAIL_USERNAME'] = '******@gmail.com'
+jidp2.app.config['MAIL_PASSWORD'] = '***'
+jidp2.app.config['MAIL_USE_TLS'] = False
+jidp2.app.config['MAIL_USE_SSL'] = True
+
+mail = Mail(jidp2.app)
+
 @jidp2.app.route('/', methods=['GET', 'POST'])
 def show_index():
     """Display / route."""
@@ -53,5 +68,10 @@ def show_index():
 
     style = flask.url_for('static', filename='css/style.css')
     ctx = {'style': style,'all_data':all_data,'abnormal_data':abnormal_data}
-
+    msg = mail.send_message(
+        'Send Mail tutorial!',
+        sender='******@gmail.com',
+        recipients=['zhuboying@sjtu.edu.cn'],
+        body="Congratulations you've succeeded!"
+    )
     return flask.render_template("index.html", **ctx)
