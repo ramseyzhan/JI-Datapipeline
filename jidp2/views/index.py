@@ -15,7 +15,7 @@ from datetime import datetime
 def read():
     datas=[]
     count=-1;
-    with open("./first-200.txt") as f:
+    with open("./first-2000.txt") as f:
         for line in f.readlines():
             count= (count+1) %4;
 
