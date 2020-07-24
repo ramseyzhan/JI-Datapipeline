@@ -49,14 +49,18 @@ def gen(datas,std,threshold):
 
 
 
+
 jidp2.app.config['MAIL_SERVER']='smtp.gmail.com'
 jidp2.app.config['MAIL_PORT'] = 465
-jidp2.app.config['MAIL_USERNAME'] = '******@gmail.com'
-jidp2.app.config['MAIL_PASSWORD'] = '***'
+jidp2.app.config['MAIL_USERNAME'] = 'jidpalert@gmail.com'
+jidp2.app.config['MAIL_PASSWORD'] = 've450dp22'
 jidp2.app.config['MAIL_USE_TLS'] = False
 jidp2.app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(jidp2.app)
+
+recipients = []
+abnormal_msg = ""
 
 @jidp2.app.route('/', methods=['GET', 'POST'])
 def show_index():
@@ -68,10 +72,14 @@ def show_index():
 
     style = flask.url_for('static', filename='css/style.css')
     ctx = {'style': style,'all_data':all_data,'abnormal_data':abnormal_data}
-    msg = mail.send_message(
-        'Send Mail tutorial!',
-        sender='******@gmail.com',
-        recipients=['zhuboying@sjtu.edu.cn'],
-        body="Congratulations you've succeeded!"
-    )
+
+    if recipients:
+        msg = mail.send_message(
+            '[Anomaly Detected] An anomaly is detected in '+abnormal_msg,
+            sender='jidpalert@gmail.com',
+            # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
+            recipients=recipients,
+            body="Dear user\n, An anomaly is detected in"+abnormal_msg
+                +"! To get more information, please visit the main site."
+        )
     return flask.render_template("index.html", **ctx)
