@@ -13,7 +13,10 @@ from flask_mail import Mail,  Message
 import datetime
 from datetime import datetime
 
-
+from jidp2.IBM import predicIBM
+from jidp2.PowerUsage import predicPowerUsage
+model_path = "jidp2/models/"
+data_path = "jidp2/data/"
 
 def read():
     datas=[]
@@ -68,8 +71,8 @@ def show_index():
 
     data=read();
     all_data,abnormal_data = gen(data,1,1)
-
-
+    predicIBM(model_path=model_path,data_path=data_path)
+    predicPowerUsage(model_path=model_path,data_path=data_path)
     style = flask.url_for('static', filename='css/style.css')
     ctx = {'style': style,'all_data':all_data,'abnormal_data':abnormal_data}
 
