@@ -13,21 +13,15 @@ def predicIBM(model_path,data_path):
 
 
     dataset = pd.read_csv(data_path+'datasets_8388_11883_IBM_2006-01-01_to_2018-01-01.csv', index_col='Date', parse_dates=['Date'])
-    training_set = dataset[:'2016'].iloc[:,1:2].values
+
+
     test_set = dataset['2017':].iloc[:,1:2].values
 
-    training_set_scaled = sc.fit_transform(training_set)
-    X_train = []
-    y_train = []
-    for i in range(60,2769):
-        X_train.append(training_set_scaled[i-60:i,0])
-        y_train.append(training_set_scaled[i,0])
-    X_train, y_train = np.array(X_train), np.array(y_train)
-    X_train = np.reshape(X_train, (X_train.shape[0],X_train.shape[1],1))
-
-
     dataset_total = pd.concat((dataset["High"][:'2016'],dataset["High"]['2017':]),axis=0)
+
     inputs = dataset_total[len(dataset_total)-len(test_set) - 60:].values
+    dates = dataset_total[len(dataset_total)-len(test_set):].index
+
     inputs = inputs.reshape(-1,1)
     inputs  = sc.transform(inputs)
 
@@ -48,6 +42,6 @@ def predicIBM(model_path,data_path):
     predicted_stock_price = sc.inverse_transform(predicted_stock_price)
 
     for i in range(10):
-        print(test_set[i],predicted_stock_price_clstm[i],predicted_stock_price[i])
+        print(dates[i],test_set[i],predicted_stock_price_clstm[i],predicted_stock_price[i])
 
-    return test_set,predicted_stock_price_clstm,predicted_stock_price
+    return [dates,test_set,predicted_stock_price_clstm,predicted_stock_price]

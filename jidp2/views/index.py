@@ -52,6 +52,15 @@ def gen(datas,std,threshold):
 
 
 
+def coverIBM(dates,actual,predicted_stock_price_clstm,predicted_stock_price):
+    datas=[]
+    for i in range(40):
+            datas.append([dates[i].timestamp()*1000,actual[i][0]])
+
+    return datas
+
+
+
 
 jidp2.app.config['MAIL_SERVER']='smtp.gmail.com'
 jidp2.app.config['MAIL_PORT'] = 465
@@ -69,12 +78,17 @@ abnormal_msg = ""
 def show_index():
     """Display / route."""
 
-    data=read();
-    all_data,abnormal_data = gen(data,1,1)
-    predicIBM(model_path=model_path,data_path=data_path)
-    predicPowerUsage(model_path=model_path,data_path=data_path)
+    dates,actual,predicted_stock_price_clstm,predicted_stock_price = predicIBM(model_path=model_path,data_path=data_path)
+    print(dates[0].timestamp()*1000)
+    datas = coverIBM(dates,actual,predicted_stock_price_clstm,predicted_stock_price)
+
+
+    # data=read();
+    # all_data,abnormal_data = gen(data,1,1)
+    # predicPowerUsage(model_path=model_path,data_path=data_path)
+
     style = flask.url_for('static', filename='css/style.css')
-    ctx = {'style': style,'all_data':all_data,'abnormal_data':abnormal_data}
+    ctx = {'style': style,'all_data':datas,'abnormal_data':datas}
 
     if recipients:
         msg = mail.send_message(
