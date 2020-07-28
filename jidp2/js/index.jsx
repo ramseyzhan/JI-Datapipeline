@@ -6,8 +6,9 @@ class Index extends React.Component {
   constructor(props) {
     // Initialize mutable state
     super(props);
-    this.state = { threshold: 2, is_input: false, anomaly: '' };
+    this.state = { email: '', threshold: 2, is_input: false, anomaly: '' };
     this.handleChange = this.handleChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
   }
 
@@ -21,50 +22,79 @@ class Index extends React.Component {
         return response.json();
       })
       .then((data) => {
-        this.setState({
+        this.setState(() => ({
           threshold: threshold,
           is_input: is_input,
           anomaly: data.anomaly,
-        });
+        }));
       })
       .catch((error) => console.log(error));
   }
 
-  handleChange(event) {
-    const { anomaly } = this.state;
+  handleEmailChange(event) {
     this.setState({
-      threshold: event.target.threshold,
-      is_input: false,
-      anomaly: anomaly,
+      email: event.target.value,
+    });
+    console.log('is_input: ', this.state.is_input);
+  }
+
+  handleChange(event) {
+    this.setState({
+      threshold: event.target.value,
     });
     console.log('is_input: ', this.state.is_input);
   }
 
   onFormSubmit(event) {
     event.preventDefault();
-    const { threshold, anomaly } = this.state;
-    this.setState({
-      threshold: threshold,
-      is_input: true,
-      anomaly: anomaly,
-    });
-    console.log('threshold: ', threshold);
-    // TODO: Do something with threshold.
+    const {url} = this.props;
+    const {email, threshold, anomaly} = this.state;
+    console.log('email: ', email);
+    fetch(url,
+      {
+        method: 'post',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ text: email, number: threshold }),
+        credentials: 'same-origin',
+      })
+      .then((response) => {
+        if (!response.ok) throw Error(response.statusText);
+        return response.json();
+      })
+      .then((data) => {
+        this.setState({
+          email: email,
+          threshold: threshold,
+          is_input: true,
+          anomaly: anomaly,
+        });
+      })
+      .catch((error) => console.log(error));
   }
 
   render() {
-    const { threshold, is_input, anomaly } = this.state;
+    const { email, threshold, is_input, anomaly } = this.state;
     if (!is_input) {
       return (
         <div className="index">
           <form  onSubmit={this.onFormSubmit}>
             <table>
               <tr>
+
+                <td>Enter email address for alerting messages: </td>
+                <td>
+                    <input type="text" value={email} onChange={this.handleEmailChange}/>
+                </td>
+
                 <td>Customize threshold (1 to 10): </td>
                 <td>
                     <input type="number" value={threshold} min="1" max="10" step="1" onChange={this.handleChange}/>
-                    <input type="submit" value="Submit Threshold" />
                 </td>
+
+                <td>
+                  <input type="submit" />
+                </td>
+
               </tr>
             </table>
           </form>

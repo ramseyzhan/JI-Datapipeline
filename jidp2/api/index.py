@@ -1,5 +1,6 @@
 """REST API for index page."""
 from flask import session, jsonify, request
+from os import path, mkdir
 import jidp2
 
 
@@ -12,6 +13,24 @@ def get_services():
     }
     # we need ** in the beginning of the jsonify function
     return jsonify(**to_json)
+
+
+@jidp2.app.route('/api/v1/', methods=["POST"])
+def get_parameters():
+    data = request.get_json()
+    email = data['text']
+    threshold = data['number']
+    tmp_dir = 'tmp'
+    mkdir(tmp_dir)
+    tmp_para = path.join(tmp_dir, 'parameters.txt')
+    with open(tmp_para, 'w+') as f:
+        f.write(email + '\n' + threshold)
+    f.close()
+    context = {
+        'email': email,
+        'threshold': threshold
+    }
+    return jsonify(**context), 201
 
 
 @jidp2.app.route('/api/v1/m/', methods=["GET"])
