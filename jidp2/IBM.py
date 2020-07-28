@@ -38,10 +38,12 @@ def predicIBM(model_path,data_path):
         X_test.append(inputs[i-60:i,0])
     X_test = np.array(X_test)
     X_test = np.reshape(X_test, (X_test.shape[0],X_test.shape[1],1))
+
     predicted_stock_price = regressor.predict(X_test)
     predicted_stock_price = sc.inverse_transform(predicted_stock_price)
-
-    for i in range(10):
-        print(dates[i],test_set[i],predicted_stock_price_clstm[i],predicted_stock_price[i])
+    
+    test_set=test_set.reshape(len(test_set));
+    predicted_stock_price_clstm=predicted_stock_price_clstm.reshape([len(predicted_stock_price_clstm),]);
+    predicted_stock_price=predicted_stock_price.reshape([len(predicted_stock_price),]);
 
     return [dates,test_set,predicted_stock_price_clstm,predicted_stock_price]

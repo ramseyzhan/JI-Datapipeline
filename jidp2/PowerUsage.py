@@ -64,8 +64,3 @@ def predicPowerUsage(model_path,data_path):
 	inv_y = np.concatenate((test_y, test_X[:, -6:]), axis=1)
 	inv_y = scaler.inverse_transform(inv_y)
 	inv_y = inv_y[:,0]
-
-	for i in range(len(inv_yhat)):
-		print(inv_yhat[i]/inv_y[i]*df_resample.values[i][0])
-
-

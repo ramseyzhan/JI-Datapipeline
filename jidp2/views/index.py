@@ -52,13 +52,23 @@ def gen(datas,std,threshold):
 
 
 
-def coverIBM(dates,actual,predicted_stock_price_clstm,predicted_stock_price):
+def detectingAbnormal(dates,actual,predicted_clstm,predicted_traditional,predicted_FCL):
     datas=[]
-    for i in range(40):
-            datas.append([dates[i].timestamp()*1000,actual[i][0]])
+    abnormal_data=[]
+    predic_clstm_data=[]
+    predic_traditional_data=[]
+    # predic_FCL should be empty for IBM
+    predic_FCL_data=[]
+    for i in range(len(dates)):
+        dateTime=dates[i].timestamp()*1000
+        datas.append([dateTime,actual[i]])
+        predic_clstm_data.append([dateTime,predicted_clstm[i]])
+        predic_traditional_data.append([dateTime,predicted_traditional[i]])
 
-    return datas
+    for i in range(len(predicted_FCL)):
+        predic_FCL_data.append([dateTime,predicted_FCL[i]])
 
+    return [datas,abnormal_data,predic_clstm_data,predic_traditional_data,predic_FCL_data]
 
 
 
@@ -78,17 +88,26 @@ abnormal_msg = ""
 def show_index():
     """Display / route."""
 
-    dates,actual,predicted_stock_price_clstm,predicted_stock_price = predicIBM(model_path=model_path,data_path=data_path)
-    print(dates[0].timestamp()*1000)
-    datas = coverIBM(dates,actual,predicted_stock_price_clstm,predicted_stock_price)
+    dates_IBM,actual_IBM,predicted_stock_price_clstm,predicted_stock_price = predicIBM(model_path=model_path,data_path=data_path)
+    datas_IBM,abnormal_data_IBM,predic_clstm_IBM,predic_traditional_IBM,predic_FCL_IBM = detectingAbnormal(dates_IBM,actual_IBM,predicted_stock_price_clstm,predicted_stock_price,[])
 
+
+    # dates,actual,predicted_power_clstm,predicted_power_traditional,predicted_power_FCL = 
+    predicPowerUsage(model_path=model_path,data_path=data_path)
+    datas_Power,abnormal_data_Power,predic_clstm_Power,predic_traditional_Power,predic_FCL_Power = detectingAbnormal(dates_IBM,actual_IBM,predicted_stock_price_clstm,predicted_stock_price,[])
 
     # data=read();
     # all_data,abnormal_data = gen(data,1,1)
     # predicPowerUsage(model_path=model_path,data_path=data_path)
 
     style = flask.url_for('static', filename='css/style.css')
-    ctx = {'style': style,'all_data':datas,'abnormal_data':datas}
+    ctx = {'style': style,'all_data_IBM':datas_IBM,'abnormal_data_IBM':abnormal_data_IBM,
+        'predic_clstm_IBM':predic_clstm_IBM,'predic_traditional_IBM':predic_traditional_IBM,'predic_FCL_IBM':predic_FCL_IBM,
+        'all_data_Power':datas_Power,'abnormal_data_Power':abnormal_data_Power,
+        'predic_clstm_Power':predic_clstm_Power,'predic_traditional_Power':predic_traditional_Power,
+        'predic_FCL_Power':predic_FCL_Power
+
+        }
 
     if recipients:
         msg = mail.send_message(
