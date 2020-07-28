@@ -8,19 +8,25 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>JI-DataPipeline</title>
     <link rel="stylesheet" type="text/css" href="{{ style }}">
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/data.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 </head>
 
 <body class="body">
   <header class="header">
       <span class="azure">
         <span class="title">
-            Capstone Design
+            Deep Learning for Anomaly Detection
         </span>
         <span class="fl_right">
             <span class="middle">
                 <nav>
-                    Product 1
-                    Product 2
+                    Power
+                    Stock
+                    Covid-19
                 </nav>
             </span>
         </span>
@@ -171,6 +177,7 @@
 						data: {{abnormal_data_IBM}}
 					}]
 				});
+            </script>
 
         </script>
 
@@ -287,15 +294,17 @@
 
 
 
-
-
-
-
-
-
-
-
-
+    <nav>
+        <a href="http://en.sjtu.edu.cn/academics/schools/the-um-sjtu-joint-institute/">UM-SJTU Joint Institute</a>
+        <a href="https://www.datapipeline.com/">Beijing DataPipeline Limited</a>
+<!--        Diagram<br>-->
+<!--        History<br>-->
+<!--        Responsibility<br>-->
+<!--        Rules<br>-->
+    </nav>
+  </div>
+  <!-- Load JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bundle.js') }}"></script>
 
 </body>
 </html>

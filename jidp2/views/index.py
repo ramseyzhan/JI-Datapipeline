@@ -15,7 +15,9 @@ from datetime import datetime
 
 from jidp2.IBM import predicIBM
 from jidp2.PowerUsage import predicPowerUsage
+
 from jidp2.api.helper import detectingAbnormal
+
 
 model_path = "jidp2/models/"
 data_path = "jidp2/data/"
@@ -62,11 +64,11 @@ abnormal_msg = ""
 @jidp2.app.route('/', methods=['GET', 'POST'])
 def show_index():
     """Display / route."""
-
     dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
                                                                                           data_path=data_path)
     datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, predic_FCL_IBM = detectingAbnormal(
         dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price, [])
+
 
     dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL = predicPowerUsage(
         model_path=model_path, data_path=data_path)
@@ -77,6 +79,7 @@ def show_index():
     # predicPowerUsage(model_path=model_path,data_path=data_path)
 
     style = flask.url_for('static', filename='css/style.css')
+
     ctx = {'style': style, 'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
            'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
            'predic_FCL_IBM': predic_FCL_IBM,
@@ -85,6 +88,7 @@ def show_index():
            'predic_FCL_Power': predic_FCL_Power
 
            }
+
 
     if recipients:
         msg = mail.send_message(
