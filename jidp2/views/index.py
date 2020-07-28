@@ -59,13 +59,15 @@ def detectingAbnormal(dates,actual,predicted_clstm,predicted_traditional,predict
     predic_traditional_data=[]
     # predic_FCL should be empty for IBM
     predic_FCL_data=[]
-    for i in range(len(dates)):
+    print(dates.shape,actual.shape)
+    for i in range(len(actual)):
         dateTime=dates[i].timestamp()*1000
         datas.append([dateTime,actual[i]])
         predic_clstm_data.append([dateTime,predicted_clstm[i]])
         predic_traditional_data.append([dateTime,predicted_traditional[i]])
 
     for i in range(len(predicted_FCL)):
+        dateTime=dates[i].timestamp()*1000
         predic_FCL_data.append([dateTime,predicted_FCL[i]])
 
     return [datas,abnormal_data,predic_clstm_data,predic_traditional_data,predic_FCL_data]
@@ -92,10 +94,8 @@ def show_index():
     datas_IBM,abnormal_data_IBM,predic_clstm_IBM,predic_traditional_IBM,predic_FCL_IBM = detectingAbnormal(dates_IBM,actual_IBM,predicted_stock_price_clstm,predicted_stock_price,[])
 
 
-    # dates,actual,predicted_power_clstm,predicted_power_traditional,predicted_power_FCL = 
-    predicPowerUsage(model_path=model_path,data_path=data_path)
-    datas_Power,abnormal_data_Power,predic_clstm_Power,predic_traditional_Power,predic_FCL_Power = detectingAbnormal(dates_IBM,actual_IBM,predicted_stock_price_clstm,predicted_stock_price,[])
-
+    dates_Power,actual_Power,predicted_power_clstm,predicted_power_traditional,predicted_power_FCL = predicPowerUsage(model_path=model_path,data_path=data_path)
+    datas_Power,abnormal_data_Power,predic_clstm_Power,predic_traditional_Power,predic_FCL_Power = detectingAbnormal(dates_Power,actual_Power,predicted_power_clstm,predicted_power_traditional,predicted_power_FCL)
     # data=read();
     # all_data,abnormal_data = gen(data,1,1)
     # predicPowerUsage(model_path=model_path,data_path=data_path)
