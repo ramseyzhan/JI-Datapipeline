@@ -16,6 +16,9 @@ from datetime import datetime
 from jidp2.IBM import predicIBM
 from jidp2.PowerUsage import predicPowerUsage
 
+from jidp2.api.helper import detectingAbnormal
+
+
 model_path = "jidp2/models/"
 data_path = "jidp2/data/"
 
@@ -46,26 +49,11 @@ def gen(datas, std, threshold):
     error = std * threshold
     for data in datas:
         all_datas.append([data[0], data[1]])
-        if (data[1] < data[2] - error or data[1] > data[2] + error):
+        if data[1] < data[2] - error or data[1] > data[2] + error:
             abnormal_datas.append([data[0], data[1]])
 
     return all_datas, abnormal_datas
 
-
-def coverIBM(dates, actual, predicted_stock_price_clstm, predicted_stock_price):
-    datas = []
-    for i in range(40):
-        datas.append([dates[i].timestamp() * 1000, actual[i][0]])
-
-    return datas
-
-
-jidp2.app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-jidp2.app.config['MAIL_PORT'] = 465
-jidp2.app.config['MAIL_USERNAME'] = 'jidpalert@gmail.com'
-jidp2.app.config['MAIL_PASSWORD'] = 've450dp22'
-jidp2.app.config['MAIL_USE_TLS'] = False
-jidp2.app.config['MAIL_USE_SSL'] = True
 
 mail = Mail(jidp2.app)
 
@@ -76,18 +64,31 @@ abnormal_msg = ""
 @jidp2.app.route('/', methods=['GET', 'POST'])
 def show_index():
     """Display / route."""
+    dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
+                                                                                          data_path=data_path)
+    datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, predic_FCL_IBM = detectingAbnormal(
+        dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price, [])
 
-    dates, actual, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
-                                                                                  data_path=data_path)
 
-    datas = coverIBM(dates, actual, predicted_stock_price_clstm, predicted_stock_price)
-
+    dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL = predicPowerUsage(
+        model_path=model_path, data_path=data_path)
+    datas_Power, abnormal_data_Power, predic_clstm_Power, predic_traditional_Power, predic_FCL_Power = detectingAbnormal(
+        dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL)
     # data=read();
     # all_data,abnormal_data = gen(data,1,1)
     # predicPowerUsage(model_path=model_path,data_path=data_path)
 
     style = flask.url_for('static', filename='css/style.css')
-    ctx = {'style': style, 'all_data': datas, 'abnormal_data': datas}
+
+    ctx = {'style': style, 'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
+           'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
+           'predic_FCL_IBM': predic_FCL_IBM,
+           'all_data_Power': datas_Power, 'abnormal_data_Power': abnormal_data_Power,
+           'predic_clstm_Power': predic_clstm_Power, 'predic_traditional_Power': predic_traditional_Power,
+           'predic_FCL_Power': predic_FCL_Power
+
+           }
+
 
     if recipients:
         msg = mail.send_message(
