@@ -81,13 +81,14 @@ def get_chart_data():
     predic_clstm_Power = str(predic_clstm_Power)
     predic_traditional_Power = str(predic_traditional_Power)
     predic_FCL_Power = str(predic_FCL_Power)
-    to_json = {'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
-               'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
-               'predic_FCL_IBM': predic_FCL_IBM,
-               'all_data_Power': datas_Power, 'abnormal_data_Power': abnormal_data_Power,
-               'predic_clstm_Power': predic_clstm_Power, 'predic_traditional_Power': predic_traditional_Power,
-               'predic_FCL_Power': predic_FCL_Power
-               }
+    to_json = {
+        'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
+        'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
+        'predic_FCL_IBM': predic_FCL_IBM,
+        'all_data_Power': datas_Power, 'abnormal_data_Power': abnormal_data_Power,
+        'predic_clstm_Power': predic_clstm_Power, 'predic_traditional_Power': predic_traditional_Power,
+        'predic_FCL_Power': predic_FCL_Power
+    }
 
     if recipients:
         msg = mail.send_message(
