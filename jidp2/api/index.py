@@ -21,6 +21,11 @@ def get_parameters():
     data = request.get_json()
     email = data['text']
     threshold = data['number']
+    
+    newstock = data['newstock']
+
+
+
     tmp_dir = 'tmp'
     mkdir(tmp_dir)
     tmp_para = path.join(tmp_dir, 'parameters.txt')

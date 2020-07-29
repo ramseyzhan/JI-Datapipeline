@@ -7,7 +7,7 @@ class Index extends React.Component {
     // Initialize mutable state
     super(props);
     this.state = {
-      email: '', threshold: 2, isInput: false, anomaly: '',
+      email: '', threshold: 2, isInput: false, anomaly: '', IBMstock : 180,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -28,6 +28,7 @@ class Index extends React.Component {
           threshold,
           isInput,
           anomaly: data.anomaly,
+          IBMstock,
         }));
       })
       .catch((error) => console.log(error));
@@ -46,6 +47,12 @@ class Index extends React.Component {
     });
   }
 
+  handleStockChange(event) {
+    this.setState({
+      IBMstock: event.target.value,
+    });
+  }
+
   onFormSubmit(event) {
     event.preventDefault();
     const { url } = this.props;
@@ -55,7 +62,7 @@ class Index extends React.Component {
       {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: email, number: threshold }),
+        body: JSON.stringify({ text: email, number: threshold, number:IBMstock  }),
         credentials: 'same-origin',
       })
       .then((response) => {
@@ -68,6 +75,7 @@ class Index extends React.Component {
           threshold,
           isInput: true,
           anomaly,
+          IBMstock,
         });
       })
       .catch((error) => console.log(error));
@@ -93,6 +101,12 @@ class Index extends React.Component {
                 <td>
                   <input type="number" value={threshold} min="1" max="10" step="1" onChange={this.handleChange} />
                 </td>
+
+                <td>New IBM stock price </td>
+                <td>
+                  <input type="number" value={IBMstock} onChange={this.handleStockChange} />
+                </td>
+
 
                 <td>
                   <input type="submit" />
