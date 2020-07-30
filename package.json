@@ -22,6 +22,8 @@
     "webpack-cli": "3.3.10"
   },
   "dependencies": {
+    "highcharts": "^8.1.2",
+    "highcharts-react-official": "^3.0.0",
     "jsonlint": "1.6.3",
     "moment": "2.24.0",
     "prop-types": "15.7.2",

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Anomaly from './anomaly';
 import Index from "./index";
 
 // This method is only called once

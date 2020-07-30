@@ -12,7 +12,7 @@ from jidp2.api.helper import format_to_json, detectingAbnormal
 def get_services():
     """Get all anomalies."""
     to_json = {
-        "highchart": "/api/v1/d/",
+        "highchartUrl": "/api/v1/d/",
         "url": "/api/v1/"
     }
     # we need ** in the beginning of the jsonify function
@@ -87,7 +87,8 @@ def get_chart_data():
         'predic_FCL_IBM': predic_FCL_IBM,
         'all_data_Power': datas_Power, 'abnormal_data_Power': abnormal_data_Power,
         'predic_clstm_Power': predic_clstm_Power, 'predic_traditional_Power': predic_traditional_Power,
-        'predic_FCL_Power': predic_FCL_Power
+        'predic_FCL_Power': predic_FCL_Power,
+        'url': '/api/v1/d/'
     }
 
     if recipients:

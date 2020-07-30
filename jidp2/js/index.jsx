@@ -1,13 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Anomaly from './anomaly';
+import Highchart from './highchart';
+
 
 class Index extends React.Component {
   constructor(props) {
     // Initialize mutable state
     super(props);
     this.state = {
-      email: '', threshold: 2, isInput: false, anomaly: '',
+      email: '', threshold: '2', isInput: false, highchartUrl: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -27,7 +28,7 @@ class Index extends React.Component {
         this.setState(() => ({
           threshold,
           isInput,
-          anomaly: data.anomaly,
+          highchartUrl: data.highchartUrl,
         }));
       })
       .catch((error) => console.log(error));
@@ -49,7 +50,7 @@ class Index extends React.Component {
   onFormSubmit(event) {
     event.preventDefault();
     const { url } = this.props;
-    const { email, threshold, anomaly } = this.state;
+    const { email, threshold, highchartUrl } = this.state;
     console.log('email: ', email);
     fetch(url,
       {
@@ -67,7 +68,7 @@ class Index extends React.Component {
           email,
           threshold,
           isInput: true,
-          anomaly,
+          highchartUrl,
         });
       })
       .catch((error) => console.log(error));
@@ -75,7 +76,7 @@ class Index extends React.Component {
 
   render() {
     const {
-      email, threshold, isInput, anomaly,
+      email, threshold, isInput, highchartUrl,
     } = this.state;
     if (!isInput) {
       return (
@@ -105,8 +106,8 @@ class Index extends React.Component {
       );
     }
     return (
-      <div className="index">
-        <Anomaly url={anomaly} />
+      <div>
+        <Highchart url={highchartUrl} />
       </div>
     );
   }
