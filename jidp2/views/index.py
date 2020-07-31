@@ -64,39 +64,41 @@ abnormal_msg = ""
 @jidp2.app.route('/', methods=['GET', 'POST'])
 def show_index():
     """Display / route."""
-    dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
-                                                                                          data_path=data_path)
-    datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, predic_FCL_IBM = detectingAbnormal(
-        dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price, [])
-
-
-    dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL = predicPowerUsage(
-        model_path=model_path, data_path=data_path)
-    datas_Power, abnormal_data_Power, predic_clstm_Power, predic_traditional_Power, predic_FCL_Power = detectingAbnormal(
-        dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL)
-    # data=read();
-    # all_data,abnormal_data = gen(data,1,1)
-    # predicPowerUsage(model_path=model_path,data_path=data_path)
-
+    # dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
+    #                                                                                       data_path=data_path)
+    # datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, predic_FCL_IBM = detectingAbnormal(
+    #     dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price, [])
+    #
+    #
+    # dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL = predicPowerUsage(
+    #     model_path=model_path, data_path=data_path)
+    # datas_Power, abnormal_data_Power, predic_clstm_Power, predic_traditional_Power, predic_FCL_Power = detectingAbnormal(
+    #     dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL)
+    # # data=read();
+    # # all_data,abnormal_data = gen(data,1,1)
+    # # predicPowerUsage(model_path=model_path,data_path=data_path)
+    #
+    # style = flask.url_for('static', filename='css/style.css')
+    #
+    # ctx = {'style': style, 'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
+    #        'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
+    #        'predic_FCL_IBM': predic_FCL_IBM,
+    #        'all_data_Power': datas_Power, 'abnormal_data_Power': abnormal_data_Power,
+    #        'predic_clstm_Power': predic_clstm_Power, 'predic_traditional_Power': predic_traditional_Power,
+    #        'predic_FCL_Power': predic_FCL_Power
+    #
+    #        }
+    #
+    #
+    # if recipients:
+    #     msg = mail.send_message(
+    #         '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
+    #         sender='jidpalert@gmail.com',
+    #         # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
+    #         recipients=recipients,
+    #         body="Dear user\n, An anomaly is detected in" + abnormal_msg
+    #              + "! To get more information, please visit the main site."
+    #     )
     style = flask.url_for('static', filename='css/style.css')
-
-    ctx = {'style': style, 'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
-           'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
-           'predic_FCL_IBM': predic_FCL_IBM,
-           'all_data_Power': datas_Power, 'abnormal_data_Power': abnormal_data_Power,
-           'predic_clstm_Power': predic_clstm_Power, 'predic_traditional_Power': predic_traditional_Power,
-           'predic_FCL_Power': predic_FCL_Power
-
-           }
-
-
-    if recipients:
-        msg = mail.send_message(
-            '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
-            sender='jidpalert@gmail.com',
-            # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
-            recipients=recipients,
-            body="Dear user\n, An anomaly is detected in" + abnormal_msg
-                 + "! To get more information, please visit the main site."
-        )
+    ctx = {'style': style}
     return flask.render_template("index.html", **ctx)
