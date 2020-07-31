@@ -11,83 +11,6 @@ class Highchart extends React.Component {
     console.log('initialized');
     super(props);
     this.state = {
-      options: {
-        title: {
-          text: 'IBM Stock Price'
-        },
-
-        exporting: {
-          enabled: false
-        },
-
-        chart: {
-          zoomType: 'x'
-        },
-
-        xAxis: {
-          type: 'datetime',
-          dateTimeLabelFormats: {
-            millisecond: '%H:%M:%S.%L',
-            second: '%H:%M:%S',
-            minute: '%H:%M',
-            hour: '%H:%M',
-            day: '%m-%d',
-            week: '%m-%d',
-            month: '%Y-%m',
-            year: '%Y'
-          }
-        },
-
-        yAxis: {
-          title: {
-            text: 'Stock Price'
-          }
-        },
-
-        tooltip: {
-          dateTimeLabelFormats: {
-            millisecond: '%H:%M:%S.%L',
-            second: '%H:%M:%S',
-            minute: '%H:%M',
-            hour: '%H:%M',
-            day: '%Y-%m-%d',
-            week: '%m-%d',
-            month: '%Y-%m',
-            year: '%Y'
-          }
-        },
-
-        legend: {
-          enabled: true
-        },
-
-        plotOptions: {
-          area: {
-            fillColor: {
-              linearGradient: {
-                x1: 0,
-                y1: 0,
-                x2: 0,
-                y2: 1
-              },
-              stops: [
-                [0, new Highcharts.getOptions().colors[0]],
-                [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-              ]
-            },
-            marker: {
-              radius: 2
-            },
-            lineWidth: 1,
-            states: {
-              hover: {
-                lineWidth: 1
-              }
-            },
-            threshold: null
-          }
-        },
-
         series: [
           {
             name: 'actual val',
@@ -108,8 +31,7 @@ class Highchart extends React.Component {
             data: []
           }
           ]
-      },
-    };
+      };
   }
 
   componentDidMount() {
@@ -124,83 +46,6 @@ class Highchart extends React.Component {
         console.log('data');
         console.log(data);
         this.setState(() => ({
-          options: {
-            title: {
-              text: 'IBM Stock Price'
-            },
-
-            exporting: {
-              enabled: false
-            },
-
-            chart: {
-              zoomType: 'x'
-            },
-
-            xAxis: {
-              type: 'datetime',
-              dateTimeLabelFormats: {
-                millisecond: '%H:%M:%S.%L',
-                second: '%H:%M:%S',
-                minute: '%H:%M',
-                hour: '%H:%M',
-                day: '%m-%d',
-                week: '%m-%d',
-                month: '%Y-%m',
-                year: '%Y'
-              }
-            },
-
-            yAxis: {
-              title: {
-                text: 'Stock Price'
-              }
-            },
-
-            tooltip: {
-              dateTimeLabelFormats: {
-                millisecond: '%H:%M:%S.%L',
-                second: '%H:%M:%S',
-                minute: '%H:%M',
-                hour: '%H:%M',
-                day: '%Y-%m-%d',
-                week: '%m-%d',
-                month: '%Y-%m',
-                year: '%Y'
-              }
-            },
-
-            legend: {
-              enabled: true
-            },
-
-            plotOptions: {
-              area: {
-                fillColor: {
-                  linearGradient: {
-                    x1: 0,
-                    y1: 0,
-                    x2: 0,
-                    y2: 1
-                  },
-                  stops: [
-                    [0, new Highcharts.getOptions().colors[0]],
-                    [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                  ]
-                },
-                marker: {
-                  radius: 2
-                },
-                lineWidth: 1,
-                states: {
-                  hover: {
-                    lineWidth: 1
-                  }
-                },
-                threshold: null
-              }
-            },
-
             series: [{
               name: 'actual val',
               data: data.all_data_IBM
@@ -219,7 +64,6 @@ class Highchart extends React.Component {
               name: 'abnormal',
               data: data.abnormal_data_IBM
             }]
-          }
         }));
         console.log('state');
         console.log(this.state);
@@ -229,13 +73,91 @@ class Highchart extends React.Component {
 
   render() {
     console.log('rendering');
-    const { options } = this.state;
+    const { series } = this.state;
     return (
       <HighchartsReact
         constructorType={"stockChart"}
-        ref={this.chartComponent}
+        // ref={this.chartComponent}
         highcharts={Highcharts}
-        options={options}
+        options={{
+          title: {
+            text: 'IBM Stock Price'
+          },
+
+          exporting: {
+            enabled: false
+          },
+
+          chart: {
+            zoomType: 'x'
+          },
+
+          xAxis: {
+            type: 'datetime',
+            dateTimeLabelFormats: {
+              millisecond: '%H:%M:%S.%L',
+              second: '%H:%M:%S',
+              minute: '%H:%M',
+              hour: '%H:%M',
+              day: '%m-%d',
+              week: '%m-%d',
+              month: '%Y-%m',
+              year: '%Y'
+            }
+          },
+
+          yAxis: {
+            title: {
+              text: 'Stock Price'
+            }
+          },
+
+          tooltip: {
+            dateTimeLabelFormats: {
+              millisecond: '%H:%M:%S.%L',
+              second: '%H:%M:%S',
+              minute: '%H:%M',
+              hour: '%H:%M',
+              day: '%Y-%m-%d',
+              week: '%m-%d',
+              month: '%Y-%m',
+              year: '%Y'
+            }
+          },
+
+          legend: {
+            enabled: false
+          },
+
+          plotOptions: {
+            area: {
+              fillColor: {
+                linearGradient: {
+                  x1: 0,
+                  y1: 0,
+                  x2: 0,
+                  y2: 1
+                },
+                stops: [
+                  [0, new Highcharts.getOptions().colors[0]],
+                  [1, new Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
+                ]
+              },
+              marker: {
+                radius: 2
+              },
+              lineWidth: 1,
+              states: {
+                hover: {
+                  lineWidth: 1
+                }
+              },
+              threshold: null
+            }
+          },
+
+          series: series
+        }}
       />
     );
   }
