@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Highchart from './highchart';
+import MyChart from './myChart';
 
 
 class Index extends React.Component {
@@ -124,7 +124,7 @@ class Index extends React.Component {
     }
     return (
       <div>
-        <Highchart url={highchartUrl} />
+        <MyChart url={highchartUrl} />
       </div>
     );
   }

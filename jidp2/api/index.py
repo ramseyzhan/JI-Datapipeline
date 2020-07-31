@@ -2,6 +2,7 @@
 from flask import session, jsonify, request
 from flask_mail import Mail, Message
 from os import path, mkdir
+import numpy as np
 import jidp2
 from jidp2.IBM import predicIBM
 from jidp2.PowerUsage import predicPowerUsage
@@ -30,9 +31,13 @@ def get_parameters():
 
 
     tmp_dir = 'tmp'
-    mkdir(tmp_dir)
+    try:
+        mkdir(tmp_dir)
+    except OSError:
+        pass
+
     tmp_para = path.join(tmp_dir, 'parameters.txt')
-    with open(tmp_para, 'w+') as f:
+    with open(tmp_para, 'w') as f:
         f.write(email + '\n' + threshold)
     f.close()
     context = {
@@ -64,6 +69,23 @@ recipients = []
 abnormal_msg = ""
 
 
+def convert_to_native_type(*arr2ds):
+    for arr2d in arr2ds:
+        for arr in arr2d:
+            for i in range(len(arr)):
+                if isinstance(arr[i], np.float64) or isinstance(arr[i], np.float32):
+                    arr[i] = arr[i].item()
+    return arr2ds
+
+
+def check_type(*arr2ds):
+    for arr2d in arr2ds:
+        for arr in arr2d:
+            print(arr)
+            for i in range(len(arr)):
+                print(type(arr[i]))
+
+
 @jidp2.app.route('/api/v1/d/', methods=["GET"])
 def get_chart_data():
     dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
@@ -76,16 +98,34 @@ def get_chart_data():
     datas_Power, abnormal_data_Power, predic_clstm_Power, predic_traditional_Power, predic_FCL_Power = detectingAbnormal(
         dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL)
 
-    datas_IBM = str(datas_IBM)
-    abnormal_data_IBM = str(abnormal_data_IBM)
-    predic_clstm_IBM = str(predic_clstm_IBM)
-    predic_traditional_IBM = str(predic_traditional_IBM)
-    predic_FCL_IBM = str(predic_FCL_IBM)
-    datas_Power = str(datas_Power)
-    abnormal_data_Power = str(abnormal_data_Power)
-    predic_clstm_Power = str(predic_clstm_Power)
-    predic_traditional_Power = str(predic_traditional_Power)
-    predic_FCL_Power = str(predic_FCL_Power)
+    [datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, \
+    predic_FCL_IBM, datas_Power, abnormal_data_Power, predic_clstm_Power, \
+    predic_traditional_Power, predic_FCL_Power] = convert_to_native_type(
+        datas_IBM,
+        abnormal_data_IBM,
+        predic_clstm_IBM,
+        predic_traditional_IBM,
+        predic_FCL_IBM,
+        datas_Power,
+        abnormal_data_Power,
+        predic_clstm_Power,
+        predic_traditional_Power,
+        predic_FCL_Power
+    )
+
+    check_type(
+        datas_IBM,
+        abnormal_data_IBM,
+        predic_clstm_IBM,
+        predic_traditional_IBM,
+        predic_FCL_IBM,
+        datas_Power,
+        abnormal_data_Power,
+        predic_clstm_Power,
+        predic_traditional_Power,
+        predic_FCL_Power
+    )
+
     to_json = {
         'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
         'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
