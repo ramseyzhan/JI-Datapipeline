@@ -23,10 +23,13 @@
     order: -1;
 }
 
+
+
 .header{
     background: rgb(14, 14, 14);
     height: 10vh;
     padding: 1em;
+
 }
 
 .header, article, nav{
@@ -44,4 +47,16 @@
 }
 .middle {
     vertical-align: middle;
+}
+
+header a{ 
+    text-decoration:none;
+    color: #FFFFFF;
+}
+
+
+div a{
+    text-decoration:none;
+
+    color: #000000;
 }

@@ -1,5 +1,6 @@
 import flask
 import jidp2
+import os
 
 from flask import Flask, render_template, redirect, url_for
 from flask_mail import Mail, Message
@@ -31,19 +32,21 @@ def format_to_json(anomalies, results):
     return to_json
 
 
-def detectingAbnormal(dates, actual, predicted_clstm, predicted_traditional, predicted_FCL):
+def detectingAbnormal(dates, actual, predicted_clstm, predicted_traditional, predicted_FCL, std, threshold):
+
     datas = []
     abnormal_data = []
     predic_clstm_data = []
     predic_traditional_data = []
     # predic_FCL should be empty for IBM
     predic_FCL_data = []
-    print(dates.shape, actual.shape)
     for i in range(len(actual)):
         dateTime = dates[i].timestamp() * 1000
         datas.append([dateTime, actual[i]])
         predic_clstm_data.append([dateTime, predicted_clstm[i]])
         predic_traditional_data.append([dateTime, predicted_traditional[i]])
+        if(actual[i]>predicted_clstm[i]+std*threshold or actual[i]<predicted_clstm[i]-std*threshold):
+            abnormal_data.append([dateTime, actual[i]])
 
     for i in range(len(predicted_FCL)):
         dateTime = dates[i].timestamp() * 1000
