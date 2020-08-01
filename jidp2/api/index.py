@@ -25,6 +25,10 @@ def get_parameters():
     data = request.get_json()
     email = data['text']
     threshold = data['number']
+    print(data,email)
+
+
+
     tmp_dir = 'tmp'
     try:
         mkdir(tmp_dir)
@@ -73,71 +77,97 @@ def convert_to_native_type(*arr2ds):
     return arr2ds
 
 
-def check_type(*arr2ds):
-    for arr2d in arr2ds:
-        for arr in arr2d:
-            print(arr)
-            for i in range(len(arr)):
-                print(type(arr[i]))
 
-
-@jidp2.app.route('/api/v1/d/', methods=["GET"])
+@jidp2.app.route('/api/v1/d/', methods=["POST"])
 def get_chart_data():
-    dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
-                                                                                          data_path=data_path)
-    datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, predic_FCL_IBM = detectingAbnormal(
-        dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price, [])
 
-    dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL = predicPowerUsage(
-        model_path=model_path, data_path=data_path)
-    datas_Power, abnormal_data_Power, predic_clstm_Power, predic_traditional_Power, predic_FCL_Power = detectingAbnormal(
-        dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL)
+    data = request.get_json()
 
-    [datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, \
-    predic_FCL_IBM, datas_Power, abnormal_data_Power, predic_clstm_Power, \
-    predic_traditional_Power, predic_FCL_Power] = convert_to_native_type(
-        datas_IBM,
-        abnormal_data_IBM,
-        predic_clstm_IBM,
-        predic_traditional_IBM,
-        predic_FCL_IBM,
-        datas_Power,
-        abnormal_data_Power,
-        predic_clstm_Power,
-        predic_traditional_Power,
-        predic_FCL_Power
-    )
+    print(data['url'])
+    dataset = data['url'].split('/')[-1]
+    if dataset== 'Stock':
 
-    check_type(
-        datas_IBM,
-        abnormal_data_IBM,
-        predic_clstm_IBM,
-        predic_traditional_IBM,
-        predic_FCL_IBM,
-        datas_Power,
-        abnormal_data_Power,
-        predic_clstm_Power,
-        predic_traditional_Power,
-        predic_FCL_Power
-    )
+        dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price = predicIBM(model_path=model_path,
+                                                                                              data_path=data_path)
+        datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, predic_FCL_IBM = detectingAbnormal(
+            dates_IBM, actual_IBM, predicted_stock_price_clstm, predicted_stock_price, [])
 
-    to_json = {
-        'all_data_IBM': datas_IBM, 'abnormal_data_IBM': abnormal_data_IBM,
-        'predic_clstm_IBM': predic_clstm_IBM, 'predic_traditional_IBM': predic_traditional_IBM,
-        'predic_FCL_IBM': predic_FCL_IBM,
-        'all_data_Power': datas_Power, 'abnormal_data_Power': abnormal_data_Power,
-        'predic_clstm_Power': predic_clstm_Power, 'predic_traditional_Power': predic_traditional_Power,
-        'predic_FCL_Power': predic_FCL_Power,
-        'url': '/api/v1/d/'
-    }
 
-    if recipients:
-        msg = mail.send_message(
-            '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
-            sender='jidpalert@gmail.com',
-            # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
-            recipients=recipients,
-            body="Dear user\n, An anomaly is detected in" + abnormal_msg
-                 + "! To get more information, please visit the main site."
+        [datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, \
+        predic_FCL_IBM] = convert_to_native_type(
+            datas_IBM,
+            abnormal_data_IBM,
+            predic_clstm_IBM,
+            predic_traditional_IBM,
+            predic_FCL_IBM,
         )
-    return jsonify(**to_json)
+
+        to_json = {
+            'all_data': datas_IBM, 'abnormal_data': abnormal_data_IBM,
+            'predic_clstm': predic_clstm_IBM, 'predic_traditional': predic_traditional_IBM,
+            'predic_FCL': predic_FCL_IBM, 'dataset': dataset,
+            'url': '/api/v1/d/'
+        }
+        if recipients:
+            msg = mail.send_message(
+                '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
+                sender='jidpalert@gmail.com',
+                # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
+                recipients=recipients,
+                body="Dear user\n, An anomaly is detected in" + abnormal_msg
+                     + "! To get more information, please visit the main site."
+            )
+        return jsonify(**to_json)
+
+
+    else:
+        dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL = predicPowerUsage(
+            model_path=model_path, data_path=data_path)
+        datas_Power, abnormal_data_Power, predic_clstm_Power, predic_traditional_Power, predic_FCL_Power = detectingAbnormal(
+            dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL)
+
+        [datas_Power, abnormal_data_Power, predic_clstm_Power, \
+        predic_traditional_Power, predic_FCL_Power] = convert_to_native_type(
+            datas_Power,
+            abnormal_data_Power,
+            predic_clstm_Power,
+            predic_traditional_Power,
+            predic_FCL_Power
+        )
+
+        to_json = {
+            'all_data': datas_Power, 'abnormal_data': abnormal_data_Power,
+            'predic_clstm': predic_clstm_Power, 'predic_traditional': predic_traditional_Power,
+            'predic_FCL': predic_FCL_Power, 'dataset': dataset,
+            'url': '/api/v1/d/'
+        }
+        if recipients:
+            msg = mail.send_message(
+                '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
+                sender='jidpalert@gmail.com',
+                # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
+                recipients=recipients,
+                body="Dear user\n, An anomaly is detected in" + abnormal_msg
+                     + "! To get more information, please visit the main site."
+            )
+        return jsonify(**to_json)
+
+
+    # [datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, \
+    # predic_FCL_IBM, datas_Power, abnormal_data_Power, predic_clstm_Power, \
+    # predic_traditional_Power, predic_FCL_Power] = convert_to_native_type(
+    #     datas_IBM,
+    #     abnormal_data_IBM,
+    #     predic_clstm_IBM,
+    #     predic_traditional_IBM,
+    #     predic_FCL_IBM,
+    #     datas_Power,
+    #     abnormal_data_Power,
+    #     predic_clstm_Power,
+    #     predic_traditional_Power,
+    #     predic_FCL_Power
+    # )
+
+
+
+

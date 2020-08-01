@@ -19,6 +19,8 @@ class Index extends React.Component {
     const { url } = this.props;
     const { threshold, isInput } = this.state;
     console.log('INDEX url', url);
+    console.log('Local url', window.location.href);
+
     fetch(url, { credentials: 'same-origin' })
       .then((response) => {
         if (!response.ok) throw Error(response.statusText);
@@ -56,7 +58,7 @@ class Index extends React.Component {
       {
         method: 'post',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: email, number: threshold }),
+        body: JSON.stringify({ text: email, number: threshold,'url' : window.location.href }),
         credentials: 'same-origin',
       })
       .then((response) => {

@@ -15,6 +15,7 @@ from datetime import datetime
 
 from jidp2.IBM import predicIBM
 from jidp2.PowerUsage import predicPowerUsage
+import jidp2.views.subPage
 
 from jidp2.api.helper import detectingAbnormal
 

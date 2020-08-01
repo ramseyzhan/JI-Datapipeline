@@ -38,7 +38,6 @@ def predicPowerUsage(model_path, data_path):
 
     df = pd.read_csv(data_path + 'household_power_consumption.csv', sep=',', parse_dates={'time': ['dt']},
                      infer_datetime_format=True, low_memory=False, na_values=['nan', '?'], index_col='time')
-    print(df)
     values = df.values
     scaler = joblib.load(model_path + 'Powerscaler.gz')
     scaled = scaler.transform(values)

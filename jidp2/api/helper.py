@@ -38,7 +38,6 @@ def detectingAbnormal(dates, actual, predicted_clstm, predicted_traditional, pre
     predic_traditional_data = []
     # predic_FCL should be empty for IBM
     predic_FCL_data = []
-    print(dates.shape, actual.shape)
     for i in range(len(actual)):
         dateTime = dates[i].timestamp() * 1000
         datas.append([dateTime, actual[i]])

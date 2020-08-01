@@ -36,7 +36,13 @@ class MyChart extends React.Component {
 
   componentDidMount() {
     const {url} = this.props;
-    fetch(url, {credentials: 'same-origin'})
+    fetch(url,
+      {
+        method: 'post',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({'url' : window.location.href }),
+        credentials: 'same-origin',
+      })
       .then((response) => {
         console.log(response);
         if (!response.ok) throw Error(response.statusText);
@@ -48,21 +54,21 @@ class MyChart extends React.Component {
         this.setState(() => ({
           series: [{
             name: 'actual val',
-            data: data.all_data_IBM
+            data: data.all_data
           },
             {
               name: 'predic clstm',
-              data: data.predic_clstm_IBM
+              data: data.predic_clstm
             },
             {
               name: 'predic traditional lstm',
-              data: data.predic_traditional_IBM
+              data: data.predic_traditional
             },
             {
               type: 'scatter',
               color: 'rgba(255, 0, 0, 1)',
               name: 'abnormal',
-              data: data.abnormal_data_IBM
+              data: data.abnormal_data
             }]
         }));
         console.log('state');
@@ -75,6 +81,7 @@ class MyChart extends React.Component {
     console.log('rendering');
     const {series} = this.state;
     console.table(series);
+
     const myMockupSeries = [
       {
         name: 'actual val',
@@ -95,6 +102,13 @@ class MyChart extends React.Component {
         data: [[1, 2]]
       }
     ];
+    var title = "IBM Stock Price"
+    var local_arr= window.location.href.split('/')
+    if(local_arr[local_arr.length - 1]=='Power'){
+      title= 'Power Usage'
+    }
+
+
     console.table(myMockupSeries);
     return (
       <div>
@@ -104,7 +118,7 @@ class MyChart extends React.Component {
           highcharts={Highcharts}
           options={{
             title: {
-              text: 'IBM Stock Price'
+              text: title
             },
 
             exporting: {
