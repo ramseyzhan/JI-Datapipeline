@@ -38,6 +38,16 @@ def show_Stock():
     ctx = {'style': style}
     return flask.render_template("stock.html", **ctx)
 
+
+@jidp2.app.route('/StockInput', methods=['GET', 'POST'])
+def show_StockInput():
+
+    style = flask.url_for('static', filename='css/style.css')
+    ctx = {'style': style}
+    return flask.render_template("stock.html", **ctx)
+
+
+    
 @jidp2.app.route('/Covid-19', methods=['GET', 'POST'])
 def show_Covid():
 

@@ -6,12 +6,12 @@ import joblib
 import keras
 
 
-def predicIBM(model_path, data_path):
+def predicIBM(model_path, file_name, data_path):
     regressor_clstm = keras.models.load_model(model_path + "IBM_model_clstm")
     sc = joblib.load(model_path + 'IBMscaler.gz')
     regressor = keras.models.load_model(model_path + "IBM_model_traditional")
 
-    dataset = pd.read_csv(data_path + 'datasets_8388_11883_IBM_2006-01-01_to_2018-01-01.csv', index_col='Date',
+    dataset = pd.read_csv(data_path + file_name, index_col='Date',
                           parse_dates=['Date'])
 
     test_set = dataset['2017':].iloc[:, 1:2].values
@@ -23,9 +23,8 @@ def predicIBM(model_path, data_path):
 
     inputs = inputs.reshape(-1, 1)
     inputs = sc.transform(inputs)
-
     X_test = []
-    for i in range(60, 311):
+    for i in range(60, 60+len(test_set)):
         X_test.append(inputs[i - 60:i, 0])
     X_test = np.array(X_test)
     X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
@@ -33,7 +32,7 @@ def predicIBM(model_path, data_path):
     predicted_stock_price_clstm = sc.inverse_transform(predicted_stock_price_clstm)
 
     X_test = []
-    for i in range(60, 311):
+    for i in range(60, 60+len(test_set)):
         X_test.append(inputs[i - 60:i, 0])
     X_test = np.array(X_test)
     X_test = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))

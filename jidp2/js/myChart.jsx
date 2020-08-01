@@ -71,8 +71,7 @@ class MyChart extends React.Component {
               data: data.abnormal_data
             }]
         }));
-        console.log('state');
-        console.log(this.state);
+
       })
       .catch((error) => console.log(error));
   }
@@ -82,34 +81,13 @@ class MyChart extends React.Component {
     const {series} = this.state;
     console.table(series);
 
-    const myMockupSeries = [
-      {
-        name: 'actual val',
-        data: [[1, 2], [2, 3]]
-      },
-      {
-        name: 'predic clstm',
-        data: [[1, 2], [2, 3]]
-      },
-      {
-        name: 'predic traditional lstm',
-        data: [[1, 2], [2, 3]]
-      },
-      {
-        type: 'scatter',
-        color: 'rgba(255, 0, 0, 1)',
-        name: 'abnormal',
-        data: [[1, 2]]
-      }
-    ];
-    var title = "IBM Stock Price"
-    var local_arr= window.location.href.split('/')
+
+    var title = "IBM Stock Price";
+    var local_arr= window.location.href.split('/');
     if(local_arr[local_arr.length - 1]=='Power'){
       title= 'Power Usage'
     }
 
-
-    console.table(myMockupSeries);
     return (
       <div>
         <HighchartsReact
