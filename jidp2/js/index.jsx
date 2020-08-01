@@ -34,6 +34,9 @@ class Index extends React.Component {
         this.setState(() => ({
           threshold,
           isInput,
+          email,
+          threshold,
+          IBMstock,
           highchartUrl: data.highchartUrl,
         }));
       })
@@ -59,6 +62,12 @@ class Index extends React.Component {
     });
   }
 
+  handleStockChange(event) {
+    this.setState({
+      IBMstock: event.target.value,
+    });
+  }
+
   onFormSubmit(event) {
     event.preventDefault();
     const { url } = this.props;
@@ -79,6 +88,8 @@ class Index extends React.Component {
           email,
           threshold,
           isInput: true,
+          anomaly,
+          IBMstock,
           highchartUrl,
         });
       })
@@ -172,6 +183,12 @@ class Index extends React.Component {
                   <td>
                     <input type="number" value={threshold} min="1" max="3" step="0.1" onChange={this.handleChange} />
                 </td>
+
+                <td>New IBM stock price </td>
+                <td>
+                  <input type="number" value={IBMstock} onChange={this.handleStockChange} />
+                </td>
+
 
                 <td>
                   <input type="submit" />
