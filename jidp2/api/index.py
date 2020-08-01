@@ -185,21 +185,22 @@ def get_chart_data():
         'predic_FCL': predic_FCL, 'dataset': dataset,
         'url': '/api/v1/d/'
     }
-    
+
     try:
         with open('tmp/parameters.txt', 'r') as f:
             email=f.readlines()[0].split()
 
-        if email:
-
-            msg = mail.send_message(
-                '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
-                sender='jidpalert@gmail.com',
-                # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
-                recipients=email,
-                body="Dear user\n, An anomaly is detected in" + abnormal_msg
-                     + "! To get more information, please visit the main site."
-            )
+        if email and abnormal_data:
+            abnormal_msg = abnormal_msg + ' on ' + datetime.datetime.utcfromtimestamp(int(abnormal_data[-1][0])/1000).strftime('%Y-%m-%d %H:%M')
+            print(abnormal_msg)
+            # msg = mail.send_message(
+            #     '[Anomaly Detection] Latest anomaly data is detected in ' + abnormal_msg,
+            #     sender='jidpalert@gmail.com',
+            #     # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
+            #     recipients=email,
+            #     body="Dear user\n, Latest anomaly data is detected in" + abnormal_msg
+            #          + "! To get more information, please visit the main site."
+            # )
     except Exception as e:
         pass
 
