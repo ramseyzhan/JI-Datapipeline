@@ -76,8 +76,26 @@ def get_inputs():
     print(data)
     if 'email' in data:
         email = data['email']
-    if 'threshold' in data:
-        threshold = float(data['threshold'])
+
+    threshold = float(data['threshold'])
+
+    if 'email' in data:
+        email = data['email']
+    else:
+        email = ''
+
+    threshold = float(data['threshold'])
+
+    tmp_dir = 'tmp'
+    try:
+        mkdir(tmp_dir)
+    except OSError:
+        pass
+
+    tmp_para = path.join(tmp_dir, 'parameters.txt')
+    with open(tmp_para, 'w') as f:
+        f.write(email + '\n' + str(threshold))
+    f.close()
 
     fname = data_path+'datasets_IBM_userInput.csv'
     with open(fname, 'a+') as f:
@@ -167,69 +185,23 @@ def get_chart_data():
         'predic_FCL': predic_FCL, 'dataset': dataset,
         'url': '/api/v1/d/'
     }
-
-    with open('tmp/parameters.txt', 'r') as f:
-        email=f.readlines()[0].split()
-
-    if email:
-
-        msg = mail.send_message(
-            '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
-            sender='jidpalert@gmail.com',
-            # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
-            recipients=email,
-            body="Dear user\n, An anomaly is detected in" + abnormal_msg
-                 + "! To get more information, please visit the main site."
-        )
-    return jsonify(**to_json)
-
     
-    datas_Power, abnormal_data_Power, predic_clstm_Power, predic_traditional_Power, predic_FCL_Power = detectingAbnormal(
-        dates_Power, actual_Power, predicted_power_clstm, predicted_power_traditional, predicted_power_FCL)
+    try:
+        with open('tmp/parameters.txt', 'r') as f:
+            email=f.readlines()[0].split()
 
-    [datas_Power, abnormal_data_Power, predic_clstm_Power, \
-    predic_traditional_Power, predic_FCL_Power] = convert_to_native_type(
-        datas_Power,
-        abnormal_data_Power,
-        predic_clstm_Power,
-        predic_traditional_Power,
-        predic_FCL_Power
-    )
+        if email:
 
-    to_json = {
-        'all_data': datas_Power, 'abnormal_data': abnormal_data_Power,
-        'predic_clstm': predic_clstm_Power, 'predic_traditional': predic_traditional_Power,
-        'predic_FCL': predic_FCL_Power, 'dataset': dataset,
-        'url': '/api/v1/d/'
-    }
-    if recipients and abnormal_data_Power:
-        print(abnormal_msg)
-        # msg = mail.send_message(
-        #     '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
-        #     sender='jidpalert@gmail.com',
-        #     # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
-        #     recipients=recipients,
-        #     body="Dear user\n, An anomaly is detected in" + abnormal_msg
-        #          + "! To get more information, please visit the main site."
-        # )
+            msg = mail.send_message(
+                '[Anomaly Detected] An anomaly is detected in ' + abnormal_msg,
+                sender='jidpalert@gmail.com',
+                # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
+                recipients=email,
+                body="Dear user\n, An anomaly is detected in" + abnormal_msg
+                     + "! To get more information, please visit the main site."
+            )
+    except Exception as e:
+        pass
+
     return jsonify(**to_json)
-
-
-    # [datas_IBM, abnormal_data_IBM, predic_clstm_IBM, predic_traditional_IBM, \
-    # predic_FCL_IBM, datas_Power, abnormal_data_Power, predic_clstm_Power, \
-    # predic_traditional_Power, predic_FCL_Power] = convert_to_native_type(
-    #     datas_IBM,
-    #     abnormal_data_IBM,
-    #     predic_clstm_IBM,
-    #     predic_traditional_IBM,
-    #     predic_FCL_IBM,
-    #     datas_Power,
-    #     abnormal_data_Power,
-    #     predic_clstm_Power,
-    #     predic_traditional_Power,
-    #     predic_FCL_Power
-    # )
-
-
-
 
