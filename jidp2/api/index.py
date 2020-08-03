@@ -167,7 +167,7 @@ def get_chart_data():
     else:
         dates, actual, predicted_clstm, predicted_traditional, predicted_power_FCL = predicPowerUsage(
                                                     model_path=model_path, data_path=data_path)
-        data_std = 0.5
+        data_std = 1
         abnormal_msg = "PowerUsage" 
 
 
@@ -192,15 +192,14 @@ def get_chart_data():
 
         if email and abnormal_data:
             abnormal_msg = abnormal_msg + ' on ' + datetime.datetime.utcfromtimestamp(int(abnormal_data[-1][0])/1000).strftime('%Y-%m-%d %H:%M')
-            print(abnormal_msg)
-            # msg = mail.send_message(
-            #     '[Anomaly Detection] Latest anomaly data is detected in ' + abnormal_msg,
-            #     sender='jidpalert@gmail.com',
-            #     # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
-            #     recipients=email,
-            #     body="Dear user\n, Latest anomaly data is detected in" + abnormal_msg
-            #          + "! To get more information, please visit the main site."
-            # )
+            msg = mail.send_message(
+                '[Anomaly Detection] Latest anomaly data is detected in ' + abnormal_msg,
+                sender='jidpalert@gmail.com',
+                # In format ['zhuboying@sjtu.edu.cn','hyinghui@umich.edu']
+                recipients=email,
+                body="Dear user\n, Latest anomaly data is detected in" + abnormal_msg
+                     + "! To get more information, please visit the main site http://ec2-18-217-225-83.us-east-2.compute.amazonaws.com/."
+            )
     except Exception as e:
         pass
 

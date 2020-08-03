@@ -123,7 +123,7 @@ class MyChart extends React.Component {
 
             yAxis: {
               title: {
-                text: 'Stock Price'
+                text: 'Power Usage'
               }
             },
 
@@ -141,7 +141,7 @@ class MyChart extends React.Component {
             },
 
             legend: {
-              enabled: false
+              enabled: true
             },
 
             plotOptions: {
