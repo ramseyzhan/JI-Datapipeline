@@ -89,6 +89,10 @@ class MyChart extends React.Component {
     if(local_arr[local_arr.length - 1]=='Power'){
       title= 'Power Usage'
     }
+  
+    if(local_arr[local_arr.length - 1]=='JPMStock'){
+      title= 'JPMorgan Stock Price'
+    }
 
     return (
       <div>

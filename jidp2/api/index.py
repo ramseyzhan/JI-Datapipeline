@@ -7,7 +7,7 @@ import jidp2
 import os
 import time 
 import datetime 
-from jidp2.IBM import predicIBM
+from jidp2.IBM import predicIBM,predicJPM
 from jidp2.PowerUsage import predicPowerUsage
 from jidp2.api.helper import format_to_json, detectingAbnormal
 
@@ -163,6 +163,13 @@ def get_chart_data():
                                                                     data_path=data_path)
         data_std = 2
         abnormal_msg = "IBM stock price" 
+    elif dataset == 'JPMStock':
+        file_name = 'JPM_2006-01-01_to_2018-01-01.csv'
+        dates, actual, predicted_clstm, predicted_traditional = predicJPM(model_path=model_path,
+                                                                    file_name=file_name,
+                                                                    data_path=data_path)
+        data_std = 2
+        abnormal_msg = "JPMorgan stock price" 
 
     else:
         dates, actual, predicted_clstm, predicted_traditional, predicted_power_FCL = predicPowerUsage(
