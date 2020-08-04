@@ -6,21 +6,92 @@
             <!-- Heading -->
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">  	    Welcome to the dsign project by         <a href="http://en.sjtu.edu.cn/academics/schools/the-um-sjtu-joint-institute/">UM-SJTU Joint Institute</a>sponsored by         <a href="https://www.datapipeline.com/">Beijing DataPipeline Limited</a> 
-					</h1>
+                    <h1 class="page-header">        Welcome to the design project by         <a href="http://en.sjtu.edu.cn/academics/schools/the-um-sjtu-joint-institute/">UM-SJTU Joint Institute</a>sponsored by         <a href="https://www.datapipeline.com/">Beijing DataPipeline Limited</a> 
+                    </h1>
                 </div>
-                <div class="col-lg-12">
-                    <h2>  	        View example for 
 
-					</h2>
-					<h3>
-						
-						<a href="/Power">Power</a>
-					   	<br>
-					   	<a href="/Stock">Stock</a>
+                <p>Today, with the growing of the internet, we can easily get large amounts of data from e-commerce platforms,  online sensors,  social media. And we need to detect the abnormal data point, like finding cheating behavior for online shipping sites, some retailers may use the clicking farming and fake review to increase their rate unfairly, which would surely harm the users’ experience and should be detected and removed. Also, we can use data collected to build weather forecast system, from the abnormal in data likes temperatures, winds, we can find the unusual climate phenomena. However, The great number of data makes it impossible for humans to review all of them.  so we are going to design the system that can automatically detect the Abnormal data for stream data.
+                </p>
+
+                <div class="center">
+
+                <img src="/static/images/anomaly.png" width="500" style="display: inline-block;" >
+                <br>
+                    &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp Figure 1 : The Anomaly Detection 
+                </div>
+
+                <p>
+                    To achieve this, we are going to build a Machine learning model and train it based on interesting data sets. In the project, there are mainly three parts, the input data re-sampling and prepossessing, C-LSTM training models, and the front-end alerting systems.
+                </p>
+
+                <h2>Data Resampling</h2>
+                We choose the power usage data as a test example. This is a highly time-series-related data set, it has a significant time pattern. Also, it has a long enough data duration to build a model with enough information. Data is recorded at 1 hour sample period over 4 years, which maintain the feature of the dataset and reduce the train time.
+
+                <div class="center">
+
+                <img src="/static/images/origin.png" width="500" style="display: inline-block;" > 
+                <br>
+                &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp Figure 2 : Origin dataset
+                <br>
+                <img src="/static/images/resample.png" width="500" style="display: inline-block;" >
+
+                <br>
+                &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp    Figure 3 : Resampling dataset
+                </div>
+
+                <h2>Deep Learning Model</h2>
+                We finally choose C-LSTM, a combination of Convolutional Neural Network(CNN) and Long Short-Term Memory (LSTM), as our model. This model combines the strengths of both architectures and demonstrated to be capable of achieving remarkable performance in time serial data analysis. C-LSTM utilizes CNN to extract features from a sequence of data. These features are then fed into an LSTM to obtain the temporal representation.
+
+                <div class="center">
+
+                <img src="/static/images/modelSt.png" width="500" style="display: inline-block;" >
+                <br>
+                    &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp Figure 4 : Model Structure
+                </div>
+
+
+                <h2>Front End Alerting</h2>
+                The front-end design is separated into two parts: the representational state transfer application programming interface (REST API) and the user interface.<br>
+                The REST API acts as a connection between the database and the user interface. It reads anomaly data points from the local database and returns a JSON file to the corresponding API route.<br>
+
+                The structure of the web page can be illustrated as a document object model (DOM) tree. The DOM tree for this project's website is shown in figure 5. DOM element $<$script$>$ is rendered by running several JavaScript files. These files visit the API routes to get the anomaly information they need to show on the web page and insert the values into the HTML templates they render. Once the web page is rendered. a JavaScript file will send a request to the APIs per second to check updated anomalies. New anomalies will be inserted into the HTML templates and be rendered in the same way.<br>
+
+                By using JavaScript, the front-end of the web application can generate real-time graphs that show the actual streaming data, as well as the predicted value, which makes the trending more intuitive. 
+
+                <div class="center">
+
+                <img src="/static/images/DOM_tree.png" width="500" style="display: inline-block;" >
+                <br>
+                    &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp Figure 5 : DOM Structure
+                </div>
+
+                <h2>Train Results</h2>
+                To quantitatively compare the performance of C-LSTM against a fully connected layer and traditional LSTM, the mean square error(MSE) is recorded throughout the training process. Figure 6 and Figure 7 show the MSE variation as the training goes. We find that in both data sets, the C-LSTM model has the least MSE for given training time.
+
+                <div class="center">
+
+                <img src="/static/images/power_mse.png" width="500" style="display: inline-block;" >
+                <br>
+                    &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp Figure 6 : Power Usage Training loss
+                </div>
+
+                <div class="center">
+
+                <img src="/static/images/IBM_mse.jpg" width="500" style="display: inline-block;" >
+                <br>
+                    &nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp &nbsp &nbsp &nbsp&nbsp &nbsp Figure 7 : IBM Stock Training loss
+                </div>
+
+                <div class="col-lg-12">
+                    <h2>View example for </h2>
+                    <h3>
+                        
+                        <a href="/Power">Power</a>
+                        <br>
+                        <a href="/Stock">Stock</a>
                         <br>
                         <a href="/StockInput">Stock Input</a>
-					</h3>
+                    </h3>
                 </div>
             </div>
 

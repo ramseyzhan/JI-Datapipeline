@@ -173,6 +173,9 @@ class Index extends React.Component {
                     <input type="number" value={threshold} min="1" max="3" step="0.1" onChange={this.handleChange} />
                 </td>
 
+
+
+
                 <td>
                   <input type="submit" />
                 </td>
@@ -187,6 +190,34 @@ class Index extends React.Component {
 
     return (
       <div>
+        <div className="index">
+          <form onSubmit={this.onFormSubmit}>
+            <table>
+              <tr>
+
+                <td>Enter email address for alerting messages: </td>
+                <td>
+                  <input type="text" value={email} onChange={this.handleEmailChange} />
+                </td>
+
+                <td>Customize threshold (1 to 3): </td>
+                  <td>
+                    <input type="number" value={threshold} min="1" max="3" step="0.1" onChange={this.handleChange} />
+                </td>
+
+                  <td>Input new data: </td>
+                  <td>
+                    <input type="number" value={input} step="0.01" onChange={this.handleInputChange} />
+                  </td>
+
+                <td>
+                  <input type="submit" />
+                </td>
+
+              </tr>
+            </table>
+          </form>
+        </div>
         <MyChart url={highchartUrl} />
       </div>
     );

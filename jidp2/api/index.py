@@ -147,7 +147,7 @@ def convert_to_native_type(*arr2ds):
 def get_chart_data():
 
     data = request.get_json()
-
+    chartname = 'Stock Price'
     dataset = data['url'].split('/')[-1]
     if dataset== 'Stock':
         file_name = 'datasets_8388_11883_IBM_2006-01-01_to_2018-01-01.csv'
@@ -168,7 +168,8 @@ def get_chart_data():
         dates, actual, predicted_clstm, predicted_traditional, predicted_power_FCL = predicPowerUsage(
                                                     model_path=model_path, data_path=data_path)
         data_std = 1
-        abnormal_msg = "PowerUsage" 
+        abnormal_msg = "Power Usage"
+        chartname = "Power Usage"
 
 
     datas, abnormal_data, predic_clstm, predic_traditional, predic_FCL = detectingAbnormal(
@@ -182,7 +183,7 @@ def get_chart_data():
     to_json = {
         'all_data': datas, 'abnormal_data': abnormal_data,
         'predic_clstm': predic_clstm, 'predic_traditional': predic_traditional,
-        'predic_FCL': predic_FCL, 'dataset': dataset,
+        'predic_FCL': predic_FCL, 'dataset': dataset, 'chartname' : chartname,
         'url': '/api/v1/d/'
     }
 

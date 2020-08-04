@@ -30,7 +30,8 @@ class MyChart extends React.Component {
           name: 'abnormal',
           data: []
         }
-      ]
+      ],
+      chartname : " ",
     };
   }
 
@@ -69,7 +70,8 @@ class MyChart extends React.Component {
               color: 'rgba(255, 0, 0, 1)',
               name: 'abnormal',
               data: data.abnormal_data
-            }]
+            }],
+          chartname  : data.chartname,
         }));
 
       })
@@ -78,7 +80,7 @@ class MyChart extends React.Component {
 
   render() {
     console.log('rendering');
-    const {series} = this.state;
+    const {series,chartname} = this.state;
     console.table(series);
 
 
@@ -123,7 +125,7 @@ class MyChart extends React.Component {
 
             yAxis: {
               title: {
-                text: 'Power Usage'
+                text: chartname
               }
             },
 
