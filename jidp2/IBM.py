@@ -6,8 +6,6 @@ import joblib
 import keras
 
 
-
-
 def predicIBM(model_path, file_name, data_path):
     regressor_clstm = keras.models.load_model(model_path + "IBM_model_clstm")
     sc = joblib.load(model_path + 'IBMscaler.gz')
@@ -50,9 +48,9 @@ def predicIBM(model_path, file_name, data_path):
 
 def predicJPM(model_path, file_name, data_path):
 
-    regressor_clstm = keras.models.load_model(model_path + "JPM_model_clstm")
+    regressor_clstm = tensorflow.keras.models.load_model(model_path + "JPM_model_clstm")
     sc = joblib.load(model_path + 'JPMscaler.gz')
-    regressor = keras.models.load_model(model_path + "JPM_model_traditional")
+    regressor = tensorflow.keras.models.load_model(model_path + "JPM_model_traditional")
 
     dataset = pd.read_csv(data_path + file_name, index_col='Date',
                           parse_dates=['Date'])
